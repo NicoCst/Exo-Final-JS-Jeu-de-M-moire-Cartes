@@ -1,0 +1,23 @@
+#card-section {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: minmax(350px, auto);
+    grid-gap: 1.5em;
+}
+
+
+.test-card {
+    background-color: aqua;
+
+}
+
+
+.card-element:not(.recto){
+    background-image: url(img-cartes/dos\ dbz.jpg)!important;
+
+}
+
+.card-element{
+    background-size: contain;
+    background-repeat: no-repeat;
+}
