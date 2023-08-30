@@ -11,10 +11,12 @@ header {
     justify-content: center;
     padding-top: 20px;
     padding-bottom: 35px;
+    margin: 0 30%;
 }
 
-
-
+#select-menu{
+    margin-right: 15px;
+}
 
 #card-section {
     display: grid;
@@ -29,6 +31,8 @@ header {
     transition: transform 0.5s ease;
     transform-style: preserve-3d;
     transform: rotateY(0deg);
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .card-element:not(.recto){
@@ -36,22 +40,124 @@ header {
     border-radius: 10px;
     background-size: cover;
     box-shadow: 0 3px 5px #00000099;
-    width: 200px; /* Largeur fixe de la carte */
-    height: 300px; /* Hauteur fixe de la carte */
-    margin: 10px; /* Marge entre les cartes */
-    transition: transform 0.5s ease, width 0.2s ease, height 0.2s ease; /* Ajoutez les transitions pour la taille */
+    width: 200px; 
+    height: 300px; 
+    margin: 10px;
+    transition: transform 0.5s ease, width 0.2s ease, height 0.2s ease;
     transform-style: preserve-3d;
     transform: rotateY(0deg);
 
 }
 
-.card-element{
-    background-size: contain;
-    background-repeat: no-repeat;
+.card-element:hover:not(.recto) {
+    width: 220px;
+    height: 320px;
+    transform: scale(1.05);
 }
 
-.card-element:hover {
-    width: 220px; /* Taille légèrement agrandie */
-    height: 320px; /* Taille légèrement agrandie */
-    transform: scale(1.05); /* Agrandissement */
+/* Button */
+
+#reset {
+  background: #ed881c;
+  border: 1px solid #ed881c;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 16px;
+  min-height: 40px;
+  outline: 0;
+  padding: 12px 14px;
+  text-align: center;
+  text-rendering: geometricprecision;
+  text-transform: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+}
+
+#reset:hover,
+#reset:active {
+  background-color: initial;
+  background-position: 0 0;
+  color: #ed881c;
+}
+
+#reset:active {
+  opacity: .5;
+}
+
+/* Select Menu */
+
+:root {
+    --background-gradient: linear-gradient(30deg, #c7c1b8 30%, #f1c40f);
+    --gray: #34495e;
+    --darkgray: #ed881c;
+  }
+
+#select-menu {
+    outline: 0;
+    border: 0;
+    box-shadow: 1px;
+    flex: 1;
+    padding: 0 1em;
+    color: #fff;
+    background-color: var(--darkgray);
+    background-image: none;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    width: 20em;
+    height: 3em;
+    border-radius: .25em;
+    overflow: hidden;
+  }
+
+  /* Arrow */
+  #select-menu::after {
+    content: '\25BC';
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1em;
+    background-color: #34495e;
+    transition: .25s all ease;
+    pointer-events: none;
+  }
+  /* Transition */
+  #select-menu:hover::after {
+    color: #f39c12;
+  }
+
+  /* Popup de win */
+
+  .popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+#close-popup {
+    margin-top: 10px;
+    cursor: pointer;
 }

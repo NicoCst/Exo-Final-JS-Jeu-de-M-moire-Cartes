@@ -11,76 +11,128 @@ const cards = [
     {number: 5, src: "img-cartes/GokuSSJ3.png"},
     {number: 6, src: "img-cartes/GokuSSJGOD.png"},
     {number: 6, src: "img-cartes/GokuSSJGOD.png"},
+    {number: 7, src: "img-cartes/dbstar1.png"},
+    {number: 7, src: "img-cartes/dbstar1.png"},
+    {number: 8, src: "img-cartes/dbstar2.png"},
+    {number: 8, src: "img-cartes/dbstar2.png"},
+    {number: 9, src: "img-cartes/dbstar3.png"},
+    {number: 9, src: "img-cartes/dbstar3.png"},
+    {number: 10, src: "img-cartes/dbstar4.png"},
+    {number: 10, src: "img-cartes/dbstar4.png"},
+    {number: 11, src: "img-cartes/dbstar5.png"},
+    {number: 11, src: "img-cartes/dbstar5.png"},
+    {number: 12, src: "img-cartes/dbstar6.png"},
+    {number: 12, src: "img-cartes/dbstar6.png"},
 ]
 
-const shuffle = (array) => { 
+let selectDiffi = document.getElementById('select-menu');
+let cardSection = document.getElementById('card-section');
+let cardElement = document.getElementsByClassName('card-element');
+
+const shuffle = (array) => {
+    if (selectDiffi.value === "easy") {
+        array = array.slice(0, 12);
+    } else if (selectDiffi.value === "medium") {
+        array = array.slice(0, 18);
+    } else if (selectDiffi.value === "hard") {
+        array = array.slice(0, 24);
+    }
     return array.sort(() => Math.random() - 0.5)
 };
 
 let shuffledCards = shuffle(cards);
 
-let cardSection = document.getElementById('card-section');
+const updateCardListeners = () => {
+    Array.from(cardElement).forEach((element, i) => {
+        element.removeEventListener('click', cardClickHandler); // Supprime les anciens écouteurs d'événements
+        element.addEventListener('click', cardClickHandler); // Ajoute les nouveaux écouteurs d'événements
+    });
+};
 
-for (let index = 0; index < cards.length; index++) {
-    let card = document.createElement('div')
-    card.classList.add('card-element');
-    cardSection.appendChild(card); 
+const displayCards = () => {
+    cardSection.innerHTML = ""; // Supprime toutes les cartes de la section
+    for (let index = 0; index < shuffledCards.length; index++) {
+        let card = document.createElement('div')
+        card.classList.add('card-element');
+        cardSection.appendChild(card); 
+    }
 }
 
-let cardElement = document.getElementsByClassName('card-element');
+displayCards();
+
+selectDiffi.addEventListener('change', () => {
+    shuffledCards = shuffle(cards); // Met à jour le tableau en fonction de la difficulté sélectionnée
+    displayCards();
+    updateCardListeners();
+});
 
 
 let flippedCards = 0; // Variable pour suivre le nombre de cartes retournées
-let selectedCardList = [];
-let winningCardList = [];
 let selectedCardIndices = []; // Indices des cartes sélectionnées
+let winningCardList = [];
 
-Array.from(cardElement).forEach((element, i) => {
-    element.addEventListener('click', () => {
-        // Vérifier si la carte est déjà retournée ou si deux cartes sont déjà retournées
-        if (!element.classList.contains('recto') && flippedCards < 2) {
-            element.classList.add('recto');
-            element.style.backgroundImage = `url(${shuffledCards[i].src})`;
 
-            selectedCardIndices.push(i); // Ajouter l'index de la carte à la liste sélectionnée
-            flippedCards++;
+function cardClickHandler() {
+    Array.from(cardElement).forEach((element, i) => {
+        element.addEventListener('click', () => {
+            // Vérifier si la carte est déjà retournée ou si deux cartes sont déjà retournées
+            if (!element.classList.contains('recto') && flippedCards < 2) {
+                element.classList.add('recto');
+                element.style.backgroundImage = `url(${shuffledCards[i].src})`;
 
-            if (flippedCards === 2) {
-                // Comparer les deux cartes retournées
-                if (selectedCardIndices.length === 2 &&
-                    shuffledCards[selectedCardIndices[0]].number === shuffledCards[selectedCardIndices[1]].number) {
-                    // Les deux cartes sont des paires, les laisser face découverte
-                    winningCardList.push(selectedCardIndices[0], selectedCardIndices[1]);
-            
-                    // Réinitialiser les cartes sélectionnées
-                    selectedCardIndices = [];
-                } else {
-                    // Les deux cartes ne sont pas des paires, les retourner de dos
-                    setTimeout(() => {
-                        selectedCardIndices.forEach(index => {
-                            if (cardElement[index]) {
-                                cardElement[index].classList.remove('recto');
-                                cardElement[index].style.backgroundImage = "";
-                            }
-                        });
-            
+                selectedCardIndices.push(i); // Ajouter l'index de la carte à la liste sélectionnée
+                flippedCards++;
+
+                if (flippedCards === 2) {
+                    // Comparer les deux cartes retournées
+                    if (selectedCardIndices.length === 2 &&
+                        shuffledCards[selectedCardIndices[0]].number === shuffledCards[selectedCardIndices[1]].number) {
+                        // Les deux cartes sont des paires, les laisser face découverte
+                        winningCardList.push(selectedCardIndices[0], selectedCardIndices[1]);
+                
                         // Réinitialiser les cartes sélectionnées
                         selectedCardIndices = [];
-                    }, 1000); // Temps d'attente avant de retourner les cartes
-                }
-            
-                // Réinitialiser le compteur de cartes retournées
-                flippedCards = 0;
-            
-                // Vérifier si toutes les paires ont été trouvées
-                if (winningCardList.length === cards.length) {
-                    // Toutes les paires ont été trouvées, afficher un message de victoire ou effectuer une action appropriée
-                    alert("Félicitations ! Vous avez trouvé toutes les paires !");
-                }
-            }                       
-        }
-    });
-});
+                    } else {
+                        // Les deux cartes ne sont pas des paires, les retourner de dos
+                        setTimeout(() => {
+                            selectedCardIndices.forEach(index => {
+                                if (cardElement[index]) {
+                                    cardElement[index].classList.remove('recto');
+                                    cardElement[index].style.backgroundImage = "";
+                                }
+                            });
+                
+                            // Réinitialiser les cartes sélectionnées
+                            selectedCardIndices = [];
+                            // Incrémenter le compteur d'essais
+                            incrementTryCounter();
+                        }, 1000); // Temps d'attente avant de retourner les cartes
+                    }
+                
+                    // Réinitialiser le compteur de cartes retournées
+                    flippedCards = 0;
+                
+                    // Vérifier si toutes les paires ont été trouvées
+                    if (winningCardList.length === shuffledCards.length) {
+                        // Toutes les paires ont été trouvées, afficher un message de victoire ou effectuer une action appropriée
+                        const popup = document.getElementById('popup');
+                        const closePopupButton = document.getElementById('close-popup');
+                        
+                        addTryToPopup();
+                        popup.style.display = 'flex';
+
+                        closePopupButton.addEventListener('click', () => {
+                            popup.style.display = 'none';
+                        });
+                    }
+                }                       
+            }
+        });
+   });
+}
+
+updateCardListeners();
+
 
 //Reset button
 
@@ -102,6 +154,45 @@ function resetGame() {
 
     // Réinitialiser le compteur de cartes retournées
     flippedCards = 0;
+
+    // Réinitialiser le compteur d'essais
+    resetTryCounter();
 }
 
 restartButton.addEventListener('click', resetGame);
+
+// Try counter
+
+let tryCounter = 0;
+let tryCounterElement = document.getElementById('try-counter');
+
+// Mettre à jour le compteur d'essais
+// function updateTryCounter() {
+//     tryCounterElement.innerHTML = `Nombre d'essais: ${tryCounter}`;
+// }
+
+const addTryToPopup = () => {
+    const tryCounterPopup = document.getElementById('popup-content-text');
+    tryCounterPopup.innerHTML = `Bravo tu as gagné ! <br> Nombre d'essais: ${tryCounter}`;
+}
+
+
+// const addTryToPopup = () => {
+//     const tryCounterPopup = document.getElementById('popup-content-text');
+//     let textTryPopup = document.createElement('p');
+//     textTryPopup.innerHTML = `Nombre d'essais: ${tryCounter}`;
+//     tryCounterPopup.appendChild(textTryPopup);
+// }
+
+// Incrémenter le compteur d'essais
+function incrementTryCounter() {
+    tryCounter++;
+}
+
+// Réinitialiser le compteur d'essais
+function resetTryCounter() {
+    tryCounter = 0;
+}
+
+addTryToPopup();
+
