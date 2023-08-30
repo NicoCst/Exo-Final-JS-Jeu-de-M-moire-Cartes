@@ -1,3 +1,21 @@
+header {
+    display: flex;
+    justify-content: center;
+    font-size: 1.8em;
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#diff-choice {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    padding-bottom: 35px;
+}
+
+
+
+
 #card-section {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
@@ -6,18 +24,34 @@
 }
 
 
-.test-card {
-    background-color: aqua;
-
+.card-element.recto {
+    background-image: none;
+    transition: transform 0.5s ease;
+    transform-style: preserve-3d;
+    transform: rotateY(0deg);
 }
-
 
 .card-element:not(.recto){
     background-image: url(img-cartes/dos\ dbz.jpg)!important;
+    border-radius: 10px;
+    background-size: cover;
+    box-shadow: 0 3px 5px #00000099;
+    width: 200px; /* Largeur fixe de la carte */
+    height: 300px; /* Hauteur fixe de la carte */
+    margin: 10px; /* Marge entre les cartes */
+    transition: transform 0.5s ease, width 0.2s ease, height 0.2s ease; /* Ajoutez les transitions pour la taille */
+    transform-style: preserve-3d;
+    transform: rotateY(0deg);
 
 }
 
 .card-element{
     background-size: contain;
     background-repeat: no-repeat;
+}
+
+.card-element:hover {
+    width: 220px; /* Taille légèrement agrandie */
+    height: 320px; /* Taille légèrement agrandie */
+    transform: scale(1.05); /* Agrandissement */
 }
