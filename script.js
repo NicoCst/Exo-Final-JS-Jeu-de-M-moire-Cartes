@@ -120,11 +120,11 @@ function cardClickHandler() {
                         
                         addTryToPopup();
                         addTimeToPopup();
-                        resetTime();
                         popup.style.display = 'flex';
 
                         closePopupButton.addEventListener('click', () => {
                             popup.style.display = 'none';
+                            resetTime();
                         });
                     }
                 }                       
