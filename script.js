@@ -119,6 +119,8 @@ function cardClickHandler() {
                         const closePopupButton = document.getElementById('close-popup');
                         
                         addTryToPopup();
+                        addTimeToPopup();
+                        resetTime();
                         popup.style.display = 'flex';
 
                         closePopupButton.addEventListener('click', () => {
@@ -157,6 +159,9 @@ function resetGame() {
 
     // Réinitialiser le compteur d'essais
     resetTryCounter();
+
+    // Réinitialiser le timer
+    resetTime();
 }
 
 restartButton.addEventListener('click', resetGame);
@@ -166,23 +171,10 @@ restartButton.addEventListener('click', resetGame);
 let tryCounter = 0;
 let tryCounterElement = document.getElementById('try-counter');
 
-// Mettre à jour le compteur d'essais
-// function updateTryCounter() {
-//     tryCounterElement.innerHTML = `Nombre d'essais: ${tryCounter}`;
-// }
-
 const addTryToPopup = () => {
     const tryCounterPopup = document.getElementById('popup-content-text');
     tryCounterPopup.innerHTML = `Bravo tu as gagné ! <br> Nombre d'essais: ${tryCounter}`;
 }
-
-
-// const addTryToPopup = () => {
-//     const tryCounterPopup = document.getElementById('popup-content-text');
-//     let textTryPopup = document.createElement('p');
-//     textTryPopup.innerHTML = `Nombre d'essais: ${tryCounter}`;
-//     tryCounterPopup.appendChild(textTryPopup);
-// }
 
 // Incrémenter le compteur d'essais
 function incrementTryCounter() {
@@ -196,3 +188,28 @@ function resetTryCounter() {
 
 addTryToPopup();
 
+//Timer
+let totalTimeInSeconds = 0;
+let seconds = 0;
+const timerElement = document.getElementById('timer');
+
+const updateTimer = () => {
+    seconds++;
+    totalTimeInSeconds++;
+    timerElement.textContent = `Temps écoulé : ${seconds} ${seconds === 1 ? 'seconde' : 'secondes'}`;
+};
+
+// Mettre à jour le timer toutes les 1 000 millisecondes (1 seconde)
+const timerInterval = setInterval(updateTimer, 1000);
+
+const addTimeToPopup = () => {
+    const timePopup = document.getElementById('popup-content-text');
+    let textTimePopup = document.createElement('p');
+    textTimePopup.innerHTML = `Temps total : ${totalTimeInSeconds} ${totalTimeInSeconds === 1 ? 'seconde' : 'secondes'}`;
+    timePopup.appendChild(textTimePopup);
+};
+
+const resetTime = () => {
+    seconds = 0;
+    totalTimeInSeconds = 0;
+}
