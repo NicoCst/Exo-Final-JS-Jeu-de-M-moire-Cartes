@@ -205,8 +205,14 @@ const timerInterval = setInterval(updateTimer, 1000);
 const addTimeToPopup = () => {
     const timePopup = document.getElementById('popup-content-text');
     let textTimePopup = document.createElement('p');
-    textTimePopup.innerHTML = `Temps total : ${totalTimeInSeconds} ${totalTimeInSeconds === 1 ? 'seconde' : 'secondes'}`;
+    textTimePopup.innerHTML = `Temps total : ${formatTime(totalTimeInSeconds)}`;
     timePopup.appendChild(textTimePopup);
+};
+
+const formatTime = (timeInSeconds) => {
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = timeInSeconds % 60;
+    return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} et ${seconds} ${seconds === 1 ? 'seconde' : 'secondes'}`;
 };
 
 const resetTime = () => {
